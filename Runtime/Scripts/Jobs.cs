@@ -224,89 +224,89 @@ namespace GLTFast.Jobs
         [BurstCompile, MonoPInvokeCallback(typeof(GetFloat3Delegate))]
         static void GetFloat3Float(float3* destination, void* src)
         {
-            destination->x = -*(float*)src;
+            destination->x = /*-*/*(float*)src;
             destination->y = *((float*)src + 1);
-            destination->z = *((float*)src + 2);
+            destination->z = -*((float*)src + 2);
         }
 
         [BurstCompile, MonoPInvokeCallback(typeof(GetFloat3Delegate))]
         static void GetFloat3Int8(float3* destination, void* src)
         {
-            destination->x = -*(sbyte*)src;
+            destination->x = /*-*/*(sbyte*)src;
             destination->y = *((sbyte*)src + 1);
-            destination->z = *((sbyte*)src + 2);
+            destination->z = -*((sbyte*)src + 2);
         }
 
         [BurstCompile, MonoPInvokeCallback(typeof(GetFloat3Delegate))]
         static void GetFloat3UInt8(float3* destination, void* src)
         {
-            destination->x = -*(byte*)src;
+            destination->x = /*-*/*(byte*)src;
             destination->y = *((byte*)src + 1);
-            destination->z = *((byte*)src + 2);
+            destination->z = -*((byte*)src + 2);
         }
 
         [BurstCompile, MonoPInvokeCallback(typeof(GetFloat3Delegate))]
         static void GetFloat3Int16(float3* destination, void* src)
         {
-            destination->x = -*(short*)src;
+            destination->x = /*-*/*(short*)src;
             destination->y = *((short*)src + 1);
-            destination->z = *((short*)src + 2);
+            destination->z = -*((short*)src + 2);
         }
 
         [BurstCompile, MonoPInvokeCallback(typeof(GetFloat3Delegate))]
         static void GetFloat3UInt16(float3* destination, void* src)
         {
-            destination->x = -*(ushort*)src;
+            destination->x = /*-*/*(ushort*)src;
             destination->y = *((ushort*)src + 1);
-            destination->z = *((ushort*)src + 2);
+            destination->z = -*((ushort*)src + 2);
         }
 
         [BurstCompile, MonoPInvokeCallback(typeof(GetFloat3Delegate))]
         static void GetFloat3UInt32(float3* destination, void* src)
         {
-            destination->x = -*(uint*)src;
+            destination->x = /*-*/*(uint*)src;
             destination->y = *((uint*)src + 1);
-            destination->z = *((uint*)src + 2);
+            destination->z = -*((uint*)src + 2);
         }
 
         [BurstCompile, MonoPInvokeCallback(typeof(GetFloat3Delegate))]
         static void GetFloat3Int8Normalized(float3* destination, void* src)
         {
-            destination->x = -max(*(sbyte*)src / 127f, -1);
+            destination->x = /*-*/max(*(sbyte*)src / 127f, -1);
             destination->y = max(*((sbyte*)src + 1) / 127f, -1);
-            destination->z = max(*((sbyte*)src + 2) / 127f, -1);
+            destination->z = -max(*((sbyte*)src + 2) / 127f, -1);
         }
 
         [BurstCompile, MonoPInvokeCallback(typeof(GetFloat3Delegate))]
         static void GetFloat3UInt8Normalized(float3* destination, void* src)
         {
-            destination->x = -*(byte*)src / 255f;
+            destination->x = /*-*/*(byte*)src / 255f;
             destination->y = *((byte*)src + 1) / 255f;
-            destination->z = *((byte*)src + 2) / 255f;
+            destination->z = -*((byte*)src + 2) / 255f;
         }
 
         [BurstCompile, MonoPInvokeCallback(typeof(GetFloat3Delegate))]
         static void GetFloat3Int16Normalized(float3* destination, void* src)
         {
-            destination->x = -max(*(short*)src / (float)short.MaxValue, -1f);
+            destination->x = /*-*/max(*(short*)src / (float)short.MaxValue, -1f);
             destination->y = max(*((short*)src + 1) / (float)short.MaxValue, -1f);
-            destination->z = max(*((short*)src + 2) / (float)short.MaxValue, -1f);
+            destination->z = -max(*((short*)src + 2) / (float)short.MaxValue, -1f);
         }
 
         [BurstCompile, MonoPInvokeCallback(typeof(GetFloat3Delegate))]
         static void GetFloat3UInt16Normalized(float3* destination, void* src)
         {
-            destination->x = -*(ushort*)src / (float)ushort.MaxValue;
+            destination->x = /*-*/*(ushort*)src / (float)ushort.MaxValue;
             destination->y = *((ushort*)src + 1) / (float)ushort.MaxValue;
-            destination->z = *((ushort*)src + 2) / (float)ushort.MaxValue;
+            destination->z = -*((ushort*)src + 2) / (float)ushort.MaxValue;
         }
 
         [BurstCompile, MonoPInvokeCallback(typeof(GetFloat3Delegate))]
         static void GetFloat3UInt32Normalized(float3* destination, void* src)
         {
-            destination->x = -*(uint*)src / (float)uint.MaxValue;
+            destination->x = /*-*/*(uint*)src / (float)uint.MaxValue;
             destination->y = *((uint*)src + 1) / (float)uint.MaxValue;
-            destination->z = *((uint*)src + 2) / (float)uint.MaxValue;
+            destination->z = -*((uint*)src + 2) / (float)uint.MaxValue;
         }
     }
 
@@ -1132,7 +1132,7 @@ namespace GLTFast.Jobs
         public void Execute(int i)
         {
             var tmp = input[i];
-            tmp.x *= -1;
+            tmp.z *= -1;
             result[i] = tmp;
         }
     }
@@ -1152,8 +1152,8 @@ namespace GLTFast.Jobs
         public void Execute(int i)
         {
             var tmp = input[i];
+            tmp.x *= -1;
             tmp.y *= -1;
-            tmp.z *= -1;
             result[i] = tmp;
         }
     }
@@ -1172,9 +1172,9 @@ namespace GLTFast.Jobs
 
         public void Execute(int i)
         {
-            result[i * 4] = Mathf.Max(input[i * 4] / (float)short.MaxValue, -1f);
+            result[i * 4] = -Mathf.Max(input[i * 4] / (float)short.MaxValue, -1f);
             result[i * 4 + 1] = -Mathf.Max(input[i * 4 + 1] / (float)short.MaxValue, -1f);
-            result[i * 4 + 2] = -Mathf.Max(input[i * 4 + 2] / (float)short.MaxValue, -1f);
+            result[i * 4 + 2] = Mathf.Max(input[i * 4 + 2] / (float)short.MaxValue, -1f);
             result[i * 4 + 3] = Mathf.Max(input[i * 4 + 3] / (float)short.MaxValue, -1f);
         }
     }
@@ -1197,9 +1197,9 @@ namespace GLTFast.Jobs
 
         public void Execute(int i)
         {
-            result[i * 4] = Mathf.Max(input[i * 4] / 127f, -1f);
+            result[i * 4] = -Mathf.Max(input[i * 4] / 127f, -1f);
             result[i * 4 + 1] = -Mathf.Max(input[i * 4 + 1] / 127f, -1f);
-            result[i * 4 + 2] = -Mathf.Max(input[i * 4 + 2] / 127f, -1f);
+            result[i * 4 + 2] = Mathf.Max(input[i * 4 + 2] / 127f, -1f);
             result[i * 4 + 3] = Mathf.Max(input[i * 4 + 3] / 127f, -1f);
         }
     }
@@ -1286,7 +1286,7 @@ namespace GLTFast.Jobs
 
             for (var x = 0; x < count; x++) {
                 var tmp = *off;
-                tmp.x *= -1;
+                tmp.z *= -1;
                 *resultV = tmp;
 
                 resultV = (float3*)((byte*)resultV + outputByteStride);
@@ -1299,7 +1299,7 @@ namespace GLTFast.Jobs
             var resultV = (float3*)(((byte*)result) + (i * outputByteStride));
             var off = (float3*)(input + i * inputByteStride);
             var tmp = *off;
-            tmp.x *= -1;
+            tmp.z *= -1;
             *resultV = tmp;
         }
 #endif
@@ -1674,7 +1674,7 @@ namespace GLTFast.Jobs
             var off = (ushort*) (input + i*inputByteStride);
 
             for (var x = 0; x < count; x++) {
-                *resultV = new float3(-(float)off[0], off[1], off[2]);
+                *resultV = new float3(/*-*/(float)off[0], off[1], -off[2]);
                 resultV = (float3*)((byte*)resultV + outputByteStride);
                 off = (ushort*)((byte*)off + inputByteStride);
             }
@@ -1684,7 +1684,7 @@ namespace GLTFast.Jobs
         {
             var resultV = (float3*)(((byte*)result) + (i * outputByteStride));
             var off = (ushort*)(input + (inputByteStride * i));
-            *resultV = new float3(-(float)off[0], off[1], off[2]);
+            *resultV = new float3((float)off[0], off[1], -(float)off[2]);
         }
 #endif
     }
@@ -1718,9 +1718,9 @@ namespace GLTFast.Jobs
 
             for (var x = 0; x < count; x++) {
                 var tmp = new float3(
-                    -(off[0] / (float) ushort.MaxValue),
+                    /*-*/(off[0] / (float) ushort.MaxValue),
                     off[1] / (float) ushort.MaxValue,
-                    off[2] / (float) ushort.MaxValue
+                    -off[2] / (float) ushort.MaxValue
                 );
                 *resultV = tmp;
                 resultV = (float3*)((byte*)resultV + outputByteStride);
@@ -1733,9 +1733,9 @@ namespace GLTFast.Jobs
             var resultV = (float3*)(((byte*)result) + (i * outputByteStride));
             var off = (ushort*)(input + (inputByteStride * i));
             *resultV = new float3(
-                -(off[0] / (float)ushort.MaxValue),
+                off[0] / (float)ushort.MaxValue,
                 off[1] / (float)ushort.MaxValue,
-                off[2] / (float)ushort.MaxValue
+                -(off[2] / (float)ushort.MaxValue)
             );
         }
 #endif
@@ -1771,7 +1771,7 @@ namespace GLTFast.Jobs
             var off = (short*) (input + i*inputByteStride);
 
             for (var x = 0; x < count; x++) {
-                *resultV = new float3(-off[0],off[1],off[2]);
+                *resultV = new float3(/*-*/off[0],off[1],-off[2]);
                 resultV = (float3*)((byte*)resultV + outputByteStride);
                 off = (short*)((byte*)off + inputByteStride);
             }
@@ -1781,7 +1781,7 @@ namespace GLTFast.Jobs
         {
             var resultV = (float3*)(((byte*)result) + (i * outputByteStride));
             var off = (short*)(input + (i * inputByteStride));
-            *resultV = new float3(-(float)off[0], off[1], off[2]);
+            *resultV = new float3(off[0], off[1], -(float)off[2]);
         }
 #endif
     }
@@ -1821,7 +1821,7 @@ namespace GLTFast.Jobs
             for (var x = 0; x < count; x++) {
                 var tmp = new float3(off[0], off[1], off[2]) / short.MaxValue;
                 var tmp2 = max(tmp, -1f);
-                tmp2.x *= -1;
+                tmp2.z *= -1;
                 *resultV = tmp2;
 
                 resultV = (float3*)((byte*)resultV + outputByteStride);
@@ -1836,7 +1836,7 @@ namespace GLTFast.Jobs
 
             var tmp = new float3(off[0], off[1], off[2]) / short.MaxValue;
             var tmp2 = max(tmp, -1f);
-            tmp2.x *= -1;
+            tmp2.z *= -1;
             *resultV = tmp2;
         }
 #endif
@@ -1877,7 +1877,7 @@ namespace GLTFast.Jobs
             for (var x = 0; x < count; x++) {
                 var tmp = new float3(off[0], off[1], off[2]) / short.MaxValue;
                 var tmp2 = max(tmp, -1f);
-                tmp2.x *= -1;
+                tmp2.z *= -1;
                 *resultV = normalize(tmp2);
 
                 resultV = (float3*)((byte*)resultV + outputByteStride);
@@ -1892,7 +1892,7 @@ namespace GLTFast.Jobs
 
             var tmp = new float3(off[0], off[1], off[2]) / short.MaxValue;
             var tmp2 = max(tmp, -1f);
-            tmp2.x *= -1;
+            tmp2.z *= -1;
             *resultV = normalize(tmp2);
         }
 #endif
@@ -1927,7 +1927,7 @@ namespace GLTFast.Jobs
             var off = input + i*inputByteStride;
 
             for (var x = 0; x < count; x++) {
-                *resultV = new float3(-off[0], off[1], off[2]);
+                *resultV = new float3(/*-*/off[0], off[1], -off[2]);
                 resultV = (float3*)((byte*)resultV + outputByteStride);
                 off += inputByteStride;
             }
@@ -1937,7 +1937,7 @@ namespace GLTFast.Jobs
         {
             var resultV = (float3*)(((byte*)result) + (i * outputByteStride));
             var off = input + (inputByteStride * i);
-            *resultV = new float3(-(float)off[0], off[1], off[2]);
+            *resultV = new float3(off[0], off[1], -(float)off[2]);
         }
 #endif
     }
@@ -1977,7 +1977,7 @@ namespace GLTFast.Jobs
             for (var x = 0; x < count; x++) {
                 var tmp = new float3(off[0], off[1], off[2]) / 127f;
                 var tmp2 = max(tmp, -1);
-                tmp2.x *= -1;
+                tmp2.z *= -1;
                 *resultV = tmp2;
 
                 resultV = (float3*)((byte*)resultV + outputByteStride);
@@ -1992,7 +1992,7 @@ namespace GLTFast.Jobs
 
             var tmp = new float3(off[0], off[1], off[2]) / 127f;
             var tmp2 = max(tmp, -1);
-            tmp2.x *= -1;
+            tmp2.z *= -1;
             *resultV = tmp2;
         }
 #endif
@@ -2033,7 +2033,7 @@ namespace GLTFast.Jobs
             for (var x = 0; x < count; x++) {
                 var tmp = new float3(off[0], off[1], off[2]) / 127f;
                 var tmp2 = max(tmp, -1);
-                tmp2.x *= -1;
+                tmp2.z *= -1;
                 *resultV = normalize(tmp2);
 
                 resultV = (float3*)((byte*)resultV + outputByteStride);
@@ -2048,7 +2048,7 @@ namespace GLTFast.Jobs
 
             var tmp = new float3(off[0], off[1], off[2]) / 127f;
             var tmp2 = max(tmp, -1);
-            tmp2.x *= -1;
+            tmp2.z *= -1;
             *resultV = normalize(tmp2);
         }
 #endif
@@ -2083,7 +2083,7 @@ namespace GLTFast.Jobs
             var off = input + i*inputByteStride;
 
             for (var x = 0; x < count; x++) {
-                *resultV = new float3(-(float)off[0],off[1],off[2]);
+                *resultV = new float3(/*-*/(float)off[0],off[1],-off[2]);
                 resultV = (float3*)((byte*)resultV + outputByteStride);
                 off += inputByteStride;
             }
@@ -2093,7 +2093,7 @@ namespace GLTFast.Jobs
         {
             var off = input + (i * inputByteStride);
             var resultV = (float3*)(((byte*)result) + (i * outputByteStride));
-            *resultV = new float3(-(float)off[0], off[1], off[2]);
+            *resultV = new float3(off[0], off[1], -(float)off[2]);
         }
 #endif
     }
@@ -2128,9 +2128,9 @@ namespace GLTFast.Jobs
 
             for (var x = 0; x < count; x++) {
                 *resultV = new float3(
-                    -(off[0] / 255f),
+                    /*-*/(off[0] / 255f),
                     off[1] / 255f,
-                    off[2] / 255f
+                    -off[2] / 255f
                 );
                 resultV = (float3*)((byte*)resultV + outputByteStride);
                 off += inputByteStride;
@@ -2142,9 +2142,9 @@ namespace GLTFast.Jobs
             var resultV = (float3*)(((byte*)result) + (i * outputByteStride));
             var off = input + (i * inputByteStride);
             *resultV = new float3(
-                -(off[0] / 255f),
+                off[0] / 255f,
                 off[1] / 255f,
-                off[2] / 255f
+                -(off[2] / 255f)
             );
         }
 #endif
@@ -2324,20 +2324,20 @@ namespace GLTFast.Jobs
         public void Execute(int i)
         {
             var tmp = input[i].c0;
-            tmp.y *= -1;
             tmp.z *= -1;
             result[i].c0 = tmp;
-
+            
             tmp = input[i].c1;
-            tmp.x *= -1;
+            tmp.z *= -1;
             result[i].c1 = tmp;
-
+            
             tmp = input[i].c2;
             tmp.x *= -1;
+            tmp.y *= -1;
             result[i].c2 = tmp;
-
+            
             tmp = input[i].c3;
-            tmp.x *= -1;
+            tmp.z *= -1;
             result[i].c3 = tmp;
         }
     }

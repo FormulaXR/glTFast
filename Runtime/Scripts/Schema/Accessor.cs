@@ -348,8 +348,8 @@ namespace GLTFast.Schema
             Assert.AreEqual(GltfAccessorAttributeType.VEC3, GetAttributeType());
             if (min != null && min.Length > 2 && max != null && max.Length > 2)
             {
-                var maxBounds = new float3(-min[0], max[1], max[2]);
-                var minBounds = new float3(-max[0], min[1], min[2]);
+                var maxBounds = new float3(min[0], max[1], -max[2]);
+                var minBounds = new float3(max[0], min[1], -min[2]);
                 if (normalized)
                 {
                     switch (componentType)
