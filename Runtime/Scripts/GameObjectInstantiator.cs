@@ -277,6 +277,7 @@ namespace GLTFast
                     }
                 }
                 smr.sharedMesh = mesh;
+                smr.localBounds = mesh.bounds;
                 if (morphTargetWeights != null)
                 {
                     for (var i = 0; i < morphTargetWeights.Length; i++)
