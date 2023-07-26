@@ -153,7 +153,7 @@ namespace GLTFast.Editor
                     var scene = m_Gltf.GetSourceScene(sceneIndex);
                     var sceneName = m_Gltf.GetSceneName(sceneIndex);
                     var go = new GameObject(sceneName);
-                    var instantiator = new GameObjectInstantiator(m_Gltf, go.transform, instantiationLogger, instantiationSettings);
+                    var instantiator = new CombineMeshInstantiator(m_Gltf, go.transform, instantiationLogger, instantiationSettings);
                     var index = sceneIndex;
                     success = AsyncHelpers.RunSync(() => m_Gltf.InstantiateSceneAsync(instantiator, index));
                     if (!success) break;
@@ -231,7 +231,11 @@ namespace GLTFast.Editor
                     AddObjectToAsset(ctx, $"materials/{mat.name}", mat);
                 }
 
-                var meshes = m_Gltf.GetMeshes();
+               GameObject main = (GameObject) ctx.mainObject;
+               var meshes = main.GetComponentsInChildren<MeshFilter>(true)
+                   .Select(f => f.sharedMesh)
+                   .Distinct();
+               
                 if (meshes != null)
                 {
                     foreach (var mesh in meshes)
